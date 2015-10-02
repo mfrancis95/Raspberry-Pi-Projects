@@ -54,32 +54,18 @@ class HD44780:
     def write(self, value, char_mode = False):
         GPIO.output(self.pin_rs, char_mode)
 
-        for pin in self.pin_bits:
-            GPIO.output(pin, False)
-
-        if value & 0x10 == 0x10:
-            GPIO.output(self.pin_bits[0], True)
-        if value & 0x20 == 0x20:
-            GPIO.output(self.pin_bits[1], True)
-        if value & 0x40 == 0x40:
-            GPIO.output(self.pin_bits[2], True)
-        if value & 0x80 == 0x80:
-            GPIO.output(self.pin_bits[3], True)
+        GPIO.output(self.pin_bits[0], value & 0x10 == 0x10)
+        GPIO.output(self.pin_bits[1], value & 0x20 == 0x20)
+        GPIO.output(self.pin_bits[2], value & 0x40 == 0x40)
+        GPIO.output(self.pin_bits[3], value & 0x80 == 0x80)
 
         self.pulse()
 
         GPIO.output(self.pin_rs, char_mode)
 
-        for pin in self.pin_bits:
-            GPIO.output(pin, False)
-
-        if value & 0x01 == 0x01:
-            GPIO.output(self.pin_bits[0], True)
-        if value & 0x02 == 0x02:
-            GPIO.output(self.pin_bits[1], True)
-        if value & 0x04 == 0x04:
-            GPIO.output(self.pin_bits[2], True)
-        if value & 0x08 == 0x08:
-            GPIO.output(self.pin_bits[3], True)
+        GPIO.output(self.pin_bits[0], value & 0x01 == 0x01)
+        GPIO.output(self.pin_bits[1], value & 0x02 == 0x02)
+        GPIO.output(self.pin_bits[2], value & 0x04 == 0x04)
+        GPIO.output(self.pin_bits[3], value & 0x08 == 0x08)
 
         self.pulse()
