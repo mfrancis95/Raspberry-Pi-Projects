@@ -31,10 +31,15 @@ class HD44780:
         if character == '\n':
             self.write(0x80 + 64)
         else:
-            self.write(ord(character), True)
+            self.write(ord(character) if type(character) is str else character, True)
 
     def clear(self):
         self.write(0x01)
+
+    def create_character(self, which, data):
+        self.write(0x40 + which * 8)
+        for i in data:
+            self.write(i, True)
 
     def cursor_home(self):
         self.write(0x02)
